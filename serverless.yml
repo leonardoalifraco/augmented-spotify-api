@@ -5,15 +5,11 @@ provider:
   runtime: ruby2.5
 
 functions:
-  hello:
-    handler: handler.hello
+  api:
+    handler: rack_adapter.handler
+    events:
+      - http: ANY /
+      - http: ANY {proxy+}
 
 plugins:
-  - serverless-hooks-plugin
-
-custom:
-  hooks:
-    package:initialize:
-      - bundle install --deployment
-    package:finalize:
-      - rm -rf .bundle
+  - serverless-rack
