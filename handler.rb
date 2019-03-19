@@ -1,5 +1,7 @@
 require 'json'
+require 'httparty'
 
 def hello(event:, context:)
-  { statusCode: 200, body: JSON.generate('Go Serverless v1.0! Your function executed successfully!') }
+  response = HTTParty.get('http://worldclockapi.com/api/json/utc/now')
+  { statusCode: response.code, body: JSON.parse(response.body) }
 end
