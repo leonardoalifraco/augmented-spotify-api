@@ -7,3 +7,8 @@ provider:
 functions:
   hello:
     handler: handler.hello
+
+package:
+  exclude:
+    - Gemfile
+    - Gemfile.lock
