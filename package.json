@@ -1,0 +1,10 @@
+{
+  "name": "augmented-spotify-api",
+  "version": "1.0.0",
+  "description": "augmented-spotify-api",
+  "author": "Leonardo Alifraco <leonardo.alifraco@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "serverless-hooks-plugin": "^1.1.0"
+  }
+}

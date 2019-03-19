@@ -8,7 +8,12 @@ functions:
   hello:
     handler: handler.hello
 
-package:
-  exclude:
-    - Gemfile
-    - Gemfile.lock
+plugins:
+  - serverless-hooks-plugin
+
+custom:
+  hooks:
+    package:initialize:
+      - bundle install --deployment
+    package:finalize:
+      - rm -rf .bundle
