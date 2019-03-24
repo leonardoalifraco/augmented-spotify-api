@@ -1,6 +1,7 @@
 require "sinatra/base"
 
 require "./app/lib/spotify"
+require "./app/lib/artist_metadata"
 
 class AugmentedSpotifyApi < Sinatra::Base
   before do
