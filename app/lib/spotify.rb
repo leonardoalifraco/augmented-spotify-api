@@ -16,8 +16,8 @@ class Spotify
   end
 
   def token
-    return @token if valid_token?
-    @token = begin
+    return @@token if valid_token?
+    @@token = begin
       new_token = request_token
       new_token['expires_at'] = Time.now + new_token['expires_in']
       new_token
@@ -25,7 +25,7 @@ class Spotify
   end
   
   def valid_token?
-    defined?(@token) && (Time.now - 30) < @token['expires_at']
+    defined?(@@token) && (Time.now - 30) < @@token['expires_at']
   end
 
   def request_token
@@ -43,7 +43,7 @@ class Spotify
     )
 
     if response.ok?
-      @token = response.parsed_response
+      @@token = response.parsed_response
     end
   end
 end
