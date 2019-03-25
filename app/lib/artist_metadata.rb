@@ -17,7 +17,12 @@ class ArtistMetadata
     })
     
     return DEFAULT_METADATA unless response.item
-    response.item.to_h.except(TABLE_KEY).with_indifferent_access
+    item = response.item.to_h
+      .except(TABLE_KEY)
+      .with_indifferent_access
+      .tap do |item|
+        item[:total_sales] = item[:total_sales].to_i if item[:total_sales].present?
+      end
   end
 
   private

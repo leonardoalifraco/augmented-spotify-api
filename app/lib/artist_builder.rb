@@ -16,7 +16,6 @@ class ArtistBuilder
     return unless @artist
 
     metadata = ArtistMetadata.new.find_by_artist(@artist_id)
-    metadata[:total_sales] = metadata[:total_sales].to_i
     @artist.merge!(metadata)
   end
 end
