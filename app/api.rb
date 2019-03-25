@@ -1,7 +1,8 @@
-require "sinatra/base"
+require 'active_support'
+require 'active_support/core_ext'
+require 'sinatra/base'
 
-require "./app/lib/spotify"
-require "./app/lib/artist_metadata"
+require './app/lib/artist_builder'
 
 class AugmentedSpotifyApi < Sinatra::Base
   before do
@@ -10,7 +11,14 @@ class AugmentedSpotifyApi < Sinatra::Base
 
   get '/artists/:id' do
     artist_id = params[:id]
-    artist_response = Spotify.new.find_artist(artist_id)
-    artist_response.body
+    
+    builder = ArtistBuilder.new(artist_id)
+    builder.fetch_artist
+    builder.add_sales_metadata
+    
+    artist = builder.artist
+    
+    status 404 and return unless artist
+    artist.to_json
   end
 end

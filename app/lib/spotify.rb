@@ -7,7 +7,8 @@ class Spotify
 
   def find_artist(id)
     options = { headers: headers }
-    self.class.get("/artists/#{id}", options)
+    response = self.class.get("/artists/#{id}", options)
+    return response.parsed_response if response.ok?
   end
 
   private
