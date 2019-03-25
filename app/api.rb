@@ -1,5 +1,6 @@
 require 'active_support'
 require 'active_support/core_ext'
+require 'json'
 require 'sinatra/base'
 
 require './app/lib/artist_builder'
@@ -20,5 +21,12 @@ class AugmentedSpotifyApi < Sinatra::Base
     
     status 404 and return unless artist
     artist.to_json
+  end
+
+  post '/artists/:id/metadata' do
+    artist_id = params[:id]
+    metadata = JSON.parse(request.body.read).with_indifferent_access
+    ArtistMetadata.new.upsert(artist_id, metadata[:sales_metadata])
+    status 204
   end
 end
