@@ -15,7 +15,7 @@ class AugmentedSpotifyApi < Sinatra::Base
     
     builder = ArtistBuilder.new(artist_id)
     builder.fetch_artist
-    builder.add_sales_metadata
+    builder.add_metadata
     
     artist = builder.artist
     
@@ -26,7 +26,7 @@ class AugmentedSpotifyApi < Sinatra::Base
   post '/artists/:id/metadata' do
     artist_id = params[:id]
     metadata = JSON.parse(request.body.read).with_indifferent_access
-    ArtistMetadata.new.upsert(artist_id, metadata[:sales_metadata])
+    ArtistMetadata.new.upsert(artist_id, metadata[:metadata])
     status 204
   end
 end

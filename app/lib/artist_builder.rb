@@ -12,10 +12,10 @@ class ArtistBuilder
     @artist = Spotify.new.find_artist(@artist_id)
   end
 
-  def add_sales_metadata
+  def add_metadata
     return unless @artist
 
     metadata = ArtistMetadata.new.find_by_artist(@artist_id)
-    @artist.merge!({ sales_metadata: metadata })
+    @artist.merge!({ metadata: metadata })
   end
 end

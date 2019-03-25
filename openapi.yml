@@ -1,0 +1,55 @@
+openapi: 3.0.0
+info:
+  title: "Augmented Spotify API"
+  version: 1.0.0
+  description: "Augments Spotify API with sensory marketing attributes"
+paths:
+  /artists/{id}:
+    get:
+      description: "Retrieves the artist from Spotify and augments the response with metadata attributes."
+      parameters:
+        - name: "id"
+          description: "Spotify artist ID"
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: "The requested artist was found on the spotify API"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Metadata"
+        404:
+          description: "The requested artist was not found on the Spotify API"
+  /artists/{id}/metadata:
+    post:
+      description: "Creates or updates metadata attributes for a Spotify artist."
+      parameters:
+        - name: "id"
+          description: "Spotify artist ID"
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Metadata"
+      responses:
+        204:
+          description: "The metadata was saved successfully"
+components:
+  schemas:
+    Metadata:
+      properties:
+         metadata:
+          type: object
+          properties:
+            total_sales:
+              type: number
+              description: "Total amount of sales that took place in the context of the artist"
