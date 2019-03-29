@@ -9,6 +9,5 @@ Acts as a proxy to the Spotify artists API and augments the response with sensor
   - This prototype is using API Gateway to expose the functions for simplicity (proxy integration) and cost effectiveness particular to this use case, however it can be configured to run behind an application load balancer.
 
 ### TODO
-  - Add unit tests
   - Add input validation for POST /artists/:id/metadata API endpoint
 
