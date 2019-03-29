@@ -30,21 +30,38 @@ describe "Augmented Spotify Api" do
 
   describe "POST /artists/:id/metadata" do
     let(:artist_id) { "0OdUWJ0sBjDrqHygGUXeCF" }
+    let(:total_sales) { 300 }
     let(:metadata) { 
       { 
         metadata: { 
-          total_sales: 300
+          total_sales: total_sales
         }
       }
     }
 
-    context "with valid metadata" do
-      before do
-        post "/artists/#{artist_id}/metadata", metadata.to_json
-      end
+    before do
+      post "/artists/#{artist_id}/metadata", metadata.to_json
+    end
 
+    context "with valid metadata" do
       it "should respond no content" do
         expect(last_response).to be_no_content
+      end
+    end
+
+    context "with invalid metadata" do
+      let(:total_sales) { "invalid total sales" }
+
+      it "should respond bad request" do
+        expect(last_response).to be_bad_request
+      end
+
+      it "should indicate what the error was on the response body" do
+        parsed_body = JSON.parse(last_response.body)
+        expect(parsed_body).to have_key("errors")
+        expect(parsed_body["errors"]).to match_array([
+          'total_sales must be numeric'
+        ])
       end
     end
   end

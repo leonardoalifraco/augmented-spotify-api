@@ -6,6 +6,8 @@ require 'sinatra/base'
 require './app/lib/artist_builder'
 
 class AugmentedSpotifyApi < Sinatra::Base
+  set :show_exceptions, :after_handler
+
   before do
     content_type :json
   end
@@ -28,5 +30,10 @@ class AugmentedSpotifyApi < Sinatra::Base
     metadata = JSON.parse(request.body.read).with_indifferent_access
     ArtistMetadata.new.upsert(artist_id, metadata[:metadata])
     status 204
+  end
+
+  error ValidationError do
+    status 400
+    { errors: env['sinatra.error'].errors }.to_json
   end
 end

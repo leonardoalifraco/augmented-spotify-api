@@ -1,5 +1,7 @@
 require 'aws-sdk-dynamodb'
 
+require './app/lib/validation_error'
+
 class ArtistMetadata
   TABLE_KEY = 'artist_spotify_id'.freeze
   TABLE_NAME = 'artists'.freeze
@@ -27,8 +29,11 @@ class ArtistMetadata
   end
 
   def upsert(id, metadata)
-    metadata = metadata.slice(*WHITELISTED_KEYS)
+    valid?(metadata)
+    return unless valid?(metadata)
     
+    metadata = metadata.slice(*WHITELISTED_KEYS)
+
     expression_attribute_names = metadata.keys.map { |k| ["##{k}", k.to_s] }.to_h
     expression_attribute_values = metadata.map { |k, v| [":#{k}", v] }.to_h
     update_expression = "SET #{metadata.keys.map{ |k| "##{k} = :#{k}" }.join(', ') }"
@@ -47,5 +52,19 @@ class ArtistMetadata
   private
   def client
     @dynamodb_client ||= Aws::DynamoDB::Client.new(region: ENV['AWS_REGION'])
+  end
+
+  def valid?(metadata)
+    errors = []
+    
+    if metadata.present?
+      if metadata[:total_sales].present?
+        errors << "total_sales must be numeric" unless metadata[:total_sales].is_a? Numeric
+      end
+    else
+      errors << "metadata must be present"
+    end
+
+    raise ValidationError.new(errors) unless errors.empty?
   end
 end
