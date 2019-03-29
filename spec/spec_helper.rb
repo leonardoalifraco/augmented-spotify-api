@@ -1,3 +1,4 @@
+require 'byebug'
 require 'dotenv'
 require 'rack/test'
 require 'rspec'

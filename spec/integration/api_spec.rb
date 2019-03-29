@@ -1,7 +1,7 @@
 require "spec_helper.rb"
 
 describe "Augmented Spotify Api" do
-  describe "#/artists/:id" do
+  describe "GET /artists/:id" do
     before do
       get "/artists/#{artist_id}"
     end
@@ -9,7 +9,7 @@ describe "Augmented Spotify Api" do
     context "with a valid artist id" do
       let(:artist_id) { "0OdUWJ0sBjDrqHygGUXeCF" }
 
-      it "should retrieve an artist by id" do
+      it "should respond ok" do
         expect(last_response).to be_ok
       end
 
@@ -22,8 +22,29 @@ describe "Augmented Spotify Api" do
     context "with an invalid artist id" do
       let(:artist_id) { "invalid-artist-id" }
 
-      it "should return a 404" do
+      it "should respond not found" do
         expect(last_response).to be_not_found
+      end
+    end
+  end
+
+  describe "POST /artists/:id/metadata" do
+    let(:artist_id) { "0OdUWJ0sBjDrqHygGUXeCF" }
+    let(:metadata) { 
+      { 
+        metadata: { 
+          total_sales: 300
+        }
+      }
+    }
+
+    context "with valid metadata" do
+      before do
+        post "/artists/#{artist_id}/metadata", metadata.to_json
+      end
+
+      it "should respond no content" do
+        expect(last_response).to be_no_content
       end
     end
   end
