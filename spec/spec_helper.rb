@@ -1,23 +1,11 @@
 require 'byebug'
 require 'dotenv'
-require 'rack/test'
 require 'rspec'
-
-ENV['RACK_ENV'] = 'test'
-
-require File.expand_path '../../app/api.rb', __FILE__
 
 Dotenv.load('.env')
 
-module RSpecMixin
-  include Rack::Test::Methods
-  def app() AugmentedSpotifyApi end
-end
-
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
-  config.include RSpecMixin
-
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.

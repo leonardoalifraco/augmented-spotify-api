@@ -1,4 +1,4 @@
-require "spec_helper.rb"
+require "rack_spec_helper"
 
 describe "Augmented Spotify Api" do
   describe "GET /artists/:id" do
