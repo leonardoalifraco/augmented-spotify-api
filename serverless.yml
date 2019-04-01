@@ -9,8 +9,14 @@ functions:
   api:
     handler: rack_adapter.handler
     events:
-      - http: ANY /
-      - http: ANY {proxy+}
+      - http:
+          path: artists/{id}
+          method: get
+          integration: lambda-proxy
+      - http:
+          path: artists/{id}/metadata
+          method: post
+          integration: lambda-proxy
 
 plugins:
   - serverless-rack
