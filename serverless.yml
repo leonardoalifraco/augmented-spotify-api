@@ -21,3 +21,12 @@ functions:
 plugins:
   - serverless-rack
   - serverless-dotenv-plugin
+
+package:
+  exclude:
+    - .env
+    - .env.*
+    - README.md
+    - openapi.yml
+    - spec/**
+    
