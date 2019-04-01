@@ -7,6 +7,6 @@
   "dependencies": {},
   "devDependencies": {
     "serverless-dotenv-plugin": "^2.0.1",
-    "serverless-rack": "^1.0.0"
+    "serverless-rack": "^1.0.1"
   }
 }
