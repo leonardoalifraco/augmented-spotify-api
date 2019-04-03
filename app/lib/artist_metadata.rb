@@ -4,7 +4,7 @@ require './app/lib/validation_error'
 
 class ArtistMetadata
   TABLE_KEY = 'artist_spotify_id'.freeze
-  TABLE_NAME = 'artists'.freeze
+  TABLE_NAME = ENV['DYNAMODB_METADATA_TABLE_NAME']
   WHITELISTED_KEYS = [:total_sales].freeze
   DEFAULT_METADATA = {
     total_sales: nil
