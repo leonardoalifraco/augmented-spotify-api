@@ -29,7 +29,6 @@ class ArtistMetadata
   end
 
   def upsert(id, metadata)
-    valid?(metadata)
     return unless valid?(metadata)
     
     metadata = metadata.slice(*WHITELISTED_KEYS)
@@ -66,5 +65,6 @@ class ArtistMetadata
     end
 
     raise ValidationError.new(errors) unless errors.empty?
+    errors
   end
 end
