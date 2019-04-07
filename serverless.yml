@@ -14,6 +14,16 @@ provider:
        - dynamodb:UpdateItem
        - dynamodb:DeleteItem
       Resource: ${env:DYNAMODB_METADATA_ARN}
+  apiKeys:
+    - ${env:API_KEY}
+  usagePlan:
+    quota:
+      limit: 5000
+      offset: 2
+      period: MONTH
+    throttle:
+      burstLimit: 200
+      rateLimit: 100
 
 functions:
   api:
@@ -23,10 +33,12 @@ functions:
           path: artists/{id}
           method: get
           integration: lambda-proxy
+          private: true
       - http:
           path: artists/{id}/metadata
           method: post
           integration: lambda-proxy
+          private: true
 
 plugins:
   - serverless-rack
